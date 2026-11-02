@@ -1899,6 +1899,22 @@ describe('API/extmarks', function()
     }, get_extmarks(-1, 0, -1, { details = true }))
   end)
 
+  it('can set cursorline num highlight group', function()
+    set_extmark(ns, marks[4], 0, 0, {
+      cursorline_num_hl_group = 'Statement',
+    })
+    eq({
+      0,
+      0,
+      {
+        cursorline_num_hl_group = 'Statement',
+        ns_id = ns,
+        right_gravity = true,
+        priority = 4096,
+      },
+    }, get_extmark_by_id(ns, marks[4], { details = true }))
+  end)
+
   it('can get marks from anonymous namespaces', function()
     ns = request('nvim_create_namespace', '')
     ns2 = request('nvim_create_namespace', '')

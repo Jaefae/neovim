@@ -421,6 +421,7 @@ typedef struct {
   HLGroupID number_hl_group;
   HLGroupID line_hl_group;
   HLGroupID cursorline_hl_group;
+  HLGroupID cursorline_num_hl_group;
   Union(String, Boolean) conceal;
   String conceal_lines;
   Boolean spell;

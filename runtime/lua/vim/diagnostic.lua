@@ -323,6 +323,10 @@ local M = vim._defer_require('vim.diagnostic', {
 --- A table mapping |diagnostic-severity| to the highlight group used for the
 --- whole line the sign is placed in.
 --- @field linehl? table<vim.diagnostic.Severity,string>
+---
+--- A table mapping |diagnostic-severity| to the highlight group used for the
+--- line number when the cursor is on the sign's line.
+--- @field culnumhl? table<vim.diagnostic.Severity,string>
 
 --- @class vim.diagnostic.Opts.Jump
 ---

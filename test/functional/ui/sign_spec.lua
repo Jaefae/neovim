@@ -538,6 +538,46 @@ describe('Signs', function()
     ]])
   end)
 
+  it('uses cursorline_num_hl_group for cursor line number', function()
+    screen:try_resize(screen._width, 4)
+    api.nvim_set_hl(0, 'TestCursorlineNum', {
+      bold = true,
+      foreground = Screen.colors.Magenta1,
+    })
+
+    exec([[
+      set number signcolumn=no cursorline cursorlineopt=number
+      call setline(1, ['line1', 'line2', 'line3'])
+      call cursor(2, 1)
+      let ns = nvim_create_namespace('test')
+      call nvim_buf_set_extmark(0, ns, 0, 0, {'number_hl_group':'Error'})
+      call nvim_buf_set_extmark(0, ns, 1, 0, {
+            \ 'number_hl_group':'Error',
+            \ 'cursorline_num_hl_group':'TestCursorlineNum'})
+    ]])
+    screen:expect([[
+      {9:  1 }line1                                            |
+      {100:  2 }^line2                                            |
+      {8:  3 }line3                                            |
+                                                           |
+    ]])
+    api.nvim_set_hl(0, 'CursorLineNr', { underline = true })
+    screen:add_extra_attr_ids({
+      [105] = {
+        foreground = Screen.colors.Grey100,
+        background = Screen.colors.Red,
+        underline = true,
+      },
+    })
+    feed('k')
+    screen:expect([[
+      {105:  1 }^line1                                            |
+      {9:  2 }line2                                            |
+      {8:  3 }line3                                            |
+                                                           |
+    ]])
+  end)
+
   it('no negative b_signcols.count with undo after initializing', function()
     exec([[
       set signcolumn=auto:2

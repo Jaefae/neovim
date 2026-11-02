@@ -85,6 +85,7 @@ typedef struct {
   int sign_num_attr;         ///< line number attribute (sign numhl)
   int prev_num_attr;         ///< previous line's number attribute (sign numhl)
   int sign_cul_attr;         ///< cursorline sign attribute (sign culhl)
+  int sign_cul_num_attr;     ///< cursorline number attribute (sign culnumhl)
 
   int fromcol;               ///< start of inverting
   int tocol;                 ///< end of inverting
@@ -637,7 +638,8 @@ static int get_line_number_attr(win_T *wp, winlinevars_T *wlv)
   // Get previous sign numhl for virt_lines belonging to the previous line.
   if ((wlv->n_virt_lines - wlv->filler_todo) < wlv->n_virt_below) {
     if (wlv->prev_num_attr == -1) {
-      decor_redraw_signs(wp, wp->w_buffer, wlv->lnum - 2, NULL, NULL, NULL, &wlv->prev_num_attr);
+      decor_redraw_signs(wp, wp->w_buffer, wlv->lnum - 2, NULL, NULL, NULL, &wlv->prev_num_attr,
+                         NULL);
       if (wlv->prev_num_attr > 0) {
         wlv->prev_num_attr = syn_id2attr(wlv->prev_num_attr);
       }
@@ -648,6 +650,10 @@ static int get_line_number_attr(win_T *wp, winlinevars_T *wlv)
   if (use_cursor_line_nr(wp, wlv)) {
     // TODO(vim): Can we use CursorLine instead of CursorLineNr
     // when CursorLineNr isn't set?
+    // if culnumhl is set, use it instead.
+    if (wlv->sign_cul_num_attr > 0) {
+      return wlv->sign_cul_num_attr;
+    }
     return hl_combine_attr(win_hl_attr(wp, HLF_CLN), numhl_attr);
   }
 
@@ -1521,7 +1527,8 @@ int win_line(win_T *wp, linenr_T lnum, int startrow, int endrow, int col_rows, b
   int sign_line_attr = 0;
   // TODO(bfredl, vigoux): line_attr should not take priority over decoration!
   decor_redraw_signs(wp, buf, wlv.lnum - 1, wlv.sattrs,
-                     &sign_line_attr, &wlv.sign_cul_attr, &wlv.sign_num_attr);
+                     &sign_line_attr, &wlv.sign_cul_attr, &wlv.sign_num_attr,
+                     &wlv.sign_cul_num_attr);
 
   statuscol_T statuscol = { 0 };
   if (*wp->w_p_stc != NUL) {
@@ -1541,7 +1548,9 @@ int win_line(win_T *wp, linenr_T lnum, int startrow, int endrow, int col_rows, b
   if (sign_line_attr > 0) {
     wlv.line_attr = syn_id2attr(sign_line_attr);
   }
-
+  if (wlv.sign_cul_num_attr > 0) {
+    wlv.sign_cul_num_attr = syn_id2attr(wlv.sign_cul_num_attr);
+  }
   // Highlight the current line in the quickfix window.
   if (bt_quickfix(wp->w_buffer) && qf_current_entry(wp) == lnum) {
     wlv.line_attr = win_hl_attr(wp, HLF_QFL);

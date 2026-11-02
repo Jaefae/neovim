@@ -2280,9 +2280,10 @@ DictAs(eval_statusline_ret) nvim_eval_statusline(String str, Dict(eval_statuslin
     int line_id = 0;
     int cul_id = 0;
     int num_id = 0;
+    int cul_num_id = 0;
     linenr_T lnum = statuscol_lnum;
     foldinfo_T cursorline_fi = { 0 };
-    decor_redraw_signs(wp, wp->w_buffer, lnum - 1, sattrs, &line_id, &cul_id, &num_id);
+    decor_redraw_signs(wp, wp->w_buffer, lnum - 1, sattrs, &line_id, &cul_id, &num_id, &cul_num_id);
 
     statuscol.sattrs = sattrs;
     statuscol.foldinfo = fold_info(wp, lnum);
@@ -2290,7 +2291,9 @@ DictAs(eval_statusline_ret) nvim_eval_statusline(String str, Dict(eval_statuslin
     statuscol.sign_cul_id = use_cursor_line_highlight(wp, lnum) ? cul_id : 0;
     scl_hl_id = use_cursor_line_highlight(wp, lnum) ? HLF_CLS : HLF_SC;
 
-    if (num_id) {
+    if (use_cursor_line_highlight(wp, lnum) && cul_num_id) {
+      stc_hl_id = cul_num_id;
+    } else if (num_id) {
       stc_hl_id = num_id;
     } else if (use_cursor_line_highlight(wp, lnum)) {
       stc_hl_id = HLF_CLN;
