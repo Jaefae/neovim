@@ -647,6 +647,9 @@ vim.diagnostic.Opts.Jump                            *vim.diagnostic.Opts.Jump*
 vim.diagnostic.Opts.Signs                          *vim.diagnostic.Opts.Signs*
 
     Fields: ~
+      • {culnumhl}?  (`table<vim.diagnostic.Severity,string>`) A table
+                     mapping |diagnostic-severity| to the highlight group used
+                     for the line number when the cursor is on the sign's line.
       • {linehl}?    (`table<vim.diagnostic.Severity,string>`) A table mapping
                      |diagnostic-severity| to the highlight group used for the
                      whole line the sign is placed in.

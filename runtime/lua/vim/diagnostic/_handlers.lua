@@ -179,6 +179,7 @@ function M.signs.show(namespace, bufnr, diagnostics, opts)
 
   local numhl = sopts.numhl or {}
   local linehl = sopts.linehl or {}
+  local culnumhl = sopts.culnumhl or {}
   local line_count = api.nvim_buf_line_count(bufnr)
 
   for _, diagnostic0 in ipairs(diagnostics) do
@@ -191,6 +192,7 @@ function M.signs.show(namespace, bufnr, diagnostics, opts)
         sign_hl_group = sign_highlight_map[diagnostic0.severity],
         number_hl_group = numhl[diagnostic0.severity],
         line_hl_group = linehl[diagnostic0.severity],
+        cursorline_num_hl_group = culnumhl[diagnostic0.severity],
         priority = get_priority(diagnostic0.severity),
       })
     end

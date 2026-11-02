@@ -2280,9 +2280,10 @@ DictAs(eval_statusline_ret) nvim_eval_statusline(String str, Dict(eval_statuslin
     int line_id = 0;
     int cul_id = 0;
     int num_id = 0;
+    int cul_num_id = 0;
     linenr_T lnum = statuscol_lnum;
     foldinfo_T cursorline_fi = { 0 };
-    decor_redraw_signs(wp, wp->w_buffer, lnum - 1, sattrs, &line_id, &cul_id, &num_id);
+    decor_redraw_signs(wp, wp->w_buffer, lnum - 1, sattrs, &line_id, &cul_id, &num_id, &cul_num_id);
 
     statuscol.sattrs = sattrs;
     statuscol.foldinfo = fold_info(wp, lnum);

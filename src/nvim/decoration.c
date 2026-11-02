@@ -178,6 +178,7 @@ DecorSignHighlight decor_sh_from_inline(DecorHighlightInline item)
     .number_hl_id = 0,
     .line_hl_id = 0,
     .cursorline_hl_id = 0,
+    .cursorline_num_hl_id = 0,
     .next = DECOR_ID_INVALID,
   };
 
@@ -1027,8 +1028,9 @@ static const uint32_t sign_filter[kMTMetaCount] = {[kMTMetaSignText] = kMTFilter
 /// @param[out] line_id Highest priority linehl id
 /// @param[out] cul_id Highest priority culhl id
 /// @param[out] num_id Highest priority numhl id
+/// @param[out] cursorline_num_id Highest priority cursorline numhl id
 void decor_redraw_signs(win_T *wp, buf_T *buf, int row, SignTextAttrs sattrs[], int *line_id,
-                        int *cul_id, int *num_id)
+                        int *cul_id, int *num_id, int *cursorline_num_id)
 {
   if (!buf_has_signs(buf)) {
     return;
@@ -1084,6 +1086,9 @@ void decor_redraw_signs(win_T *wp, buf_T *buf, int row, SignTextAttrs sattrs[], 
       }
       if (cul_id != NULL && *cul_id <= 0) {
         *cul_id = sh->cursorline_hl_id;
+      }
+      if (cursorline_num_id != NULL && *cursorline_num_id <= 0) {
+        *cursorline_num_id = sh->cursorline_num_hl_id;
       }
     }
     kv_destroy(signs);
@@ -1463,6 +1468,7 @@ void decor_to_dict_legacy(Dict *dict, DecorInline decor, bool hl_name, Arena *ar
       { "number_hl_group"    , sh_sign.number_hl_id     },
       { "line_hl_group"      , sh_sign.line_hl_id       },
       { "cursorline_hl_group", sh_sign.cursorline_hl_id },
+      { "cursorline_num_hl_group", sh_sign.cursorline_num_hl_id },
       { NULL, 0 },
     };
 

@@ -3023,7 +3023,7 @@ describe('vim.diagnostic', function()
       local sign_count, hl_group = exec_lua(function()
         vim.diagnostic.config({
           signs = {
-            cursorline_num_hl_group = {
+            culnumhl = {
               [vim.diagnostic.severity.ERROR] = 'DiagnosticError',
             },
           },

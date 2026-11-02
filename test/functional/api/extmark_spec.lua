@@ -1910,6 +1910,7 @@ describe('API/extmarks', function()
         cursorline_num_hl_group = 'Statement',
         ns_id = ns,
         right_gravity = true,
+        priority = 4096,
       },
     }, get_extmark_by_id(ns, marks[4], { details = true }))
   end)
