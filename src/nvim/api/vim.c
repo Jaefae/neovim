@@ -2291,7 +2291,9 @@ DictAs(eval_statusline_ret) nvim_eval_statusline(String str, Dict(eval_statuslin
     statuscol.sign_cul_id = use_cursor_line_highlight(wp, lnum) ? cul_id : 0;
     scl_hl_id = use_cursor_line_highlight(wp, lnum) ? HLF_CLS : HLF_SC;
 
-    if (num_id) {
+    if (use_cursor_line_highlight(wp, lnum) && cul_num_id) {
+      stc_hl_id = cul_num_id;
+    } else if (num_id) {
       stc_hl_id = num_id;
     } else if (use_cursor_line_highlight(wp, lnum)) {
       stc_hl_id = HLF_CLN;
