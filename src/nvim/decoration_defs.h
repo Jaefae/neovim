@@ -91,7 +91,7 @@ typedef struct {
   const char *url;
 } DecorSignHighlight;
 
-#define DECOR_SIGN_HIGHLIGHT_INIT { 0, DECOR_PRIORITY_BASE, 0, { 0, 0 }, NULL, 0, 0, 0, 0, 0,\
+#define DECOR_SIGN_HIGHLIGHT_INIT { 0, DECOR_PRIORITY_BASE, 0, { 0, 0 }, NULL, 0, 0, 0, 0, 0, \
                                     DECOR_ID_INVALID, NULL }
 
 enum {

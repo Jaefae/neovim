@@ -594,7 +594,8 @@ Integer nvim_buf_set_extmark(Buffer buf, Integer ns_id, Integer line, Integer co
   sign.line_hl_id = (int)opts->line_hl_group;
   sign.cursorline_num_hl_id = (int)opts->cursorline_num_hl_group;
 
-  if (sign.hl_id || sign.cursorline_hl_id || sign.number_hl_id || sign.line_hl_id || sign.cursorline_num_hl_id) {
+  if (sign.hl_id || sign.cursorline_hl_id || sign.number_hl_id || sign.line_hl_id
+      || sign.cursorline_num_hl_id) {
     sign.flags |= kSHIsSign;
   }
 
@@ -881,7 +882,8 @@ Integer nvim_buf_set_extmark(Buffer buf, Integer ns_id, Integer line, Integer co
       if (sign.text[0]) {
         decor_flags |= MT_FLAG_DECOR_SIGNTEXT;
       }
-      if (sign.number_hl_id || sign.line_hl_id || sign.cursorline_hl_id || sign.cursorline_num_hl_id) {
+      if (sign.number_hl_id || sign.line_hl_id || sign.cursorline_hl_id
+          || sign.cursorline_num_hl_id) {
         decor_flags |= MT_FLAG_DECOR_SIGNHL;
       }
     }
