@@ -3019,6 +3019,45 @@ describe('vim.diagnostic', function()
       eq('table', type(result))
       eq(0, #result)
     end)
+    it('sets cursorline number highlight on diagnostic signs', function()
+      local sign_count, hl_group = exec_lua(function()
+        vim.diagnostic.config({
+          signs = {
+            cursorline_num_hl_group = {
+              [vim.diagnostic.severity.ERROR] = 'DiagnosticError',
+            },
+          },
+        })
+
+        vim.diagnostic.set(_G.diagnostic_ns, _G.diagnostic_bufnr, {
+          _G.make_error('Error', 1, 1, 1, 2),
+        })
+
+        local sign_ns = vim.diagnostic.get_namespace(_G.diagnostic_ns).user_data.sign_ns
+        local signs = vim.api.nvim_buf_get_extmarks(
+          _G.diagnostic_bufnr,
+          sign_ns,
+          0,
+          -1,
+          { type = 'sign', details = true }
+        )
+
+        local hl_group = signs[1][4].cursorline_num_hl_group
+        vim.diagnostic.set(_G.diagnostic_ns, _G.diagnostic_bufnr, {})
+
+        local remaining = vim.api.nvim_buf_get_extmarks(
+          _G.diagnostic_bufnr,
+          sign_ns,
+          0,
+          -1,
+          { type = 'sign', details = true }
+        )
+        return #remaining, hl_group
+      end)
+
+      eq(0, sign_count)
+      eq('DiagnosticError', hl_group)
+    end)
   end)
 
   describe('open_float()', function()
