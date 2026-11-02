@@ -410,6 +410,8 @@ ArrayOf(DictAs(get_extmark_item)) nvim_buf_get_extmarks(Buffer buf, Integer ns_i
 ///                 2; subject to 'concealcursor' on the cursor line.
 ///               - cursorline_hl_group: Highlight group used for the 'signcolumn' text when the
 ///                 cursor is on the same line as the mark and 'cursorline' is enabled.
+///               - cursorline_num_hl_group: Highlight group used for the number column when the
+///                 cursor is on the same line as the mark and 'cursorline' is enabled.
 ///               - end_col: End-column of the mark, 0-based exclusive, or -1 to extend the range to
 ///                 end of line (if strict=false).
 ///               - end_right_gravity: (boolean, default: false) Indicates which direction the extmark
